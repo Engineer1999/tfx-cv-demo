@@ -10,11 +10,11 @@ project
 │   │   mnist.tfrecord # MNIST dataset converted in tfrecords
 │
 └───training_pipeline 
-│   |───pipeline
-|   |   └─── mnist_pipeline.py  # TFX pipeline
-|   |   └─── mnist_train.py     # Training functions
-|   |   └─── mnist_transform.py # Data preprocessing function
-|   └─── local_runner.py        # Python code for triggering pipeline
+│   │───pipeline
+│   │   └─── mnist_pipeline.py  # TFX pipeline
+│   │   └─── mnist_train.py     # Training functions
+│   │   └─── mnist_transform.py # Data preprocessing function
+│   └─── local_runner.py        # Python code for triggering pipeline
 │
 └───config.toml            # TOML config file for env variables
 └───Dockerfile             # To build docker image
