@@ -1,0 +1,10 @@
+[tfx_config]
+_pipeline_name = "mnist_native_keras"
+_mnist_root ="./tfx-cv-demo"
+_data_root = "./tfrecords"
+_tfx_root =  "./tfx"
+_pipeline_root = "./tfx/pipelines"
+_metadata_path = "./tfx/metadata/metadata.db"
+_serving_dir = "./serving_model"
+_transform_module_file = "./training_pipeline/pipeline/mnist_tranform.py"
+_trainer_module = "./training_pipeline/pipeline/mnist_train.py"

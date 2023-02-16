@@ -21,32 +21,27 @@ from tfx.proto import trainer_pb2
 from tensorflow_metadata.proto.v0 import schema_pb2
 from datetime import datetime
 
+import tomli
 
-_pipeline_name = "mnist_native_keras"
-_mnist_root = os.path.join(
-    "/home/bhargavpatel/Desktop/Image_Classification_tfx/Code_Tinkaring/",
-    "image-classification-pipeline",
-)
-_data_root = os.path.join(_mnist_root, "tfrecords")
-_serving_model_dir = os.path.join(_mnist_root, "serving_model", _pipeline_name)
-_tfx_root = os.path.join(_mnist_root, "tfx")
-_pipeline_root = os.path.join(_tfx_root, "pipelines", _pipeline_name)
-_metadata_path = os.path.join(_tfx_root, "metadata", _pipeline_name, "metadata.db")
-_transform_module_file = "/home/bhargavpatel/Desktop/Image_Classification_tfx/Code_Tinkaring/image-classification-pipeline/training_pipeline/pipeline/mnist_tranform.py"
-trainer_module = "/home/bhargavpatel/Desktop/Image_Classification_tfx/Code_Tinkaring/image-classification-pipeline/training_pipeline/pipeline/mnist_train.py"
+_config_path = "config.toml"
 
-_beam_pipeline_args = [
-    "--direct_running_mode=multi_processing",
-    # 0 means auto-detect based on on the number of CPUs available
-    # during execution time.
-    "--direct_num_workers=0",
-]
 
-# Airflow-specific configs; these will be passed directly to airflow
-_airflow_config = {
-    "schedule_interval": None,
-    "start_date": datetime(2019, 1, 1),
-}
+def read_config(path):
+    with open(path) as f:
+        content = f.read()
+        config = tomli.loads(content)
+
+    return config
+
+
+config = read_config(_config_path)
+
+_pipeline_name = config["tfx_config"]["_pipeline_name"]
+_data_root = config["tfx_config"]["_data_root"]
+_serving_model_dir = config["tfx_config"]["_serving_dir"]
+_pipeline_root = config["tfx_config"]["_pipeline_root"]
+_transform_module_file = config["tfx_config"]["_transform_module_file"]
+_trainer_module = config["tfx_config"]["_trainer_module"]
 
 
 def _create_pipeline(
@@ -65,7 +60,7 @@ def _create_pipeline(
         module_file=_transform_module_file,
     )
     trainer = Trainer(
-        module_file=trainer_module,
+        module_file=_trainer_module,
         examples=transform.outputs["transformed_examples"],
         transform_graph=transform.outputs["transform_graph"],
         schema=infer_schema.outputs["schema"],
