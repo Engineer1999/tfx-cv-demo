@@ -1,0 +1,5 @@
+tfx==1.12.0
+tomli
+boto3
+tqdm
+datetime
