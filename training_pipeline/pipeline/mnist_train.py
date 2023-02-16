@@ -6,9 +6,23 @@ from tfx.components.trainer.fn_args_utils import DataAccessor
 from tfx_bsl.tfxio import dataset_options
 from tfx.components.trainer.fn_args_utils import FnArgs
 import absl
+import tomli
 
+_config_path = "config.toml"
+
+
+def read_config(path):
+    with open(path) as f:
+        content = f.read()
+        config = tomli.loads(content)
+
+    return config
+
+
+config = read_config(_config_path)
 IMAGE_KEY = 'image_floats'
 LABEL_KEY = 'image_class'
+
 
 def transformed_name(key):
   return key + '_xf'
@@ -32,7 +46,7 @@ def build_keras_model() -> tf.keras.Model:
   model.add(tf.keras.layers.Dense(10, activation='softmax'))
   model.compile(
       loss='sparse_categorical_crossentropy',
-      optimizer=tf.keras.optimizers.RMSprop(lr=0.0015),
+      optimizer=tf.keras.optimizers.RMSprop(lr=config["hyperperameter"]["_learning_rate"]),
       metrics=['sparse_categorical_accuracy'])
   model.summary(print_fn=absl.logging.info)
   return model

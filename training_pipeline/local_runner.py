@@ -22,7 +22,7 @@ config = read_config(_config_path)
 
 _pipeline_name = config["tfx_config"]["_pipeline_name"]
 _data_root = config["tfx_config"]["_data_root"]
-_serving_model_dir = config["tfx_config"]["_serving_dir"]
+_serving_model_dir = config["tfx_config"]["_serving_dir"] + "/" + _pipeline_name
 _pipeline_root = config["tfx_config"]["_pipeline_root"]
 _metadata_path = config["tfx_config"]["_metadata_path"]
 

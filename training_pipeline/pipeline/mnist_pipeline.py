@@ -38,7 +38,7 @@ config = read_config(_config_path)
 
 _pipeline_name = config["tfx_config"]["_pipeline_name"]
 _data_root = config["tfx_config"]["_data_root"]
-_serving_model_dir = config["tfx_config"]["_serving_dir"]
+_serving_model_dir = config["tfx_config"]["_serving_dir"] + "/" + _pipeline_name
 _pipeline_root = config["tfx_config"]["_pipeline_root"]
 _transform_module_file = config["tfx_config"]["_transform_module_file"]
 _trainer_module = config["tfx_config"]["_trainer_module"]
@@ -64,8 +64,8 @@ def _create_pipeline(
         examples=transform.outputs["transformed_examples"],
         transform_graph=transform.outputs["transform_graph"],
         schema=infer_schema.outputs["schema"],
-        train_args=trainer_pb2.TrainArgs(num_steps=5000),
-        eval_args=trainer_pb2.EvalArgs(num_steps=100),
+        train_args=trainer_pb2.TrainArgs(num_steps=config["hyperperameter"]["_training_epoch"]),
+        eval_args=trainer_pb2.EvalArgs(num_steps=config["hyperperameter"]["_evaluation_epoch"]),
     )
     accuracy_threshold = 0.8
     eval_config = tfma.EvalConfig(

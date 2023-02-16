@@ -1,5 +1,5 @@
 [tfx_config]
-_pipeline_name = "mnist_native_keras"
+_pipeline_name = "mnist_native_keras_docker"
 _mnist_root ="./tfx-cv-demo"
 _data_root = "./tfrecords"
 _tfx_root =  "./tfx"
@@ -8,3 +8,12 @@ _metadata_path = "./tfx/metadata/metadata.db"
 _serving_dir = "./serving_model"
 _transform_module_file = "./training_pipeline/pipeline/mnist_tranform.py"
 _trainer_module = "./training_pipeline/pipeline/mnist_train.py"
+
+[hyperperameter]
+_training_epoch = 5000
+_evaluation_epoch = 100
+_learning_rate = 1e-3
+
+[aws]
+model_exported_path = "./serving_model"
+model_bucket_name = "tfx-demo-model-serving"
