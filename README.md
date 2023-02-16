@@ -29,6 +29,8 @@ The TFX pipeline is designed to be run on both of local environments, with minor
 
 ## On Local Environment
 ```
+$ cd tfx-cv-demo
+
 $ tfx pipeline create --pipeline-path=training_pipeline/local_runner.py \
                       --engine=local
 $ tfx pipeline compile --pipeline-path=training_pipeline/local_runner.py \
@@ -36,6 +38,7 @@ $ tfx pipeline compile --pipeline-path=training_pipeline/local_runner.py \
 $ tfx run create --pipeline-name=mnist_native_keras_docker \ 
                  --engine=local
 $ python upload_model_to_s3.py
+
 $ rm -rf serving_model
 ```
 
@@ -45,3 +48,23 @@ $ rm -rf serving_model
 $ make run_pipeline
 ```
 
+# Docker
+To build the docker image and run it, follow below steps
+
+## Build Docker image
+```
+$ cd tfx-cv-demo
+
+$ docker build -t tfx_cv_demo:1.0.0 .
+
+$ docker run  \
+       --env AWS_ACCESS_KEY_ID=<aws_access_key> \
+       --env AWS_SECRET_ACCESS_KEY=<aws_secret_access_key> \ 
+       -it <image_id>
+
+$ docker login -u <user_id> -p <password>
+
+$ docker tag tfx_cv_demo:1.0.0 <user_id>/<repo_name>
+
+$ docker push <user_id>/<repo_name>
+```
