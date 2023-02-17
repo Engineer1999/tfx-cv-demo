@@ -67,4 +67,6 @@ $ docker login -u <user_id> -p <password>
 $ docker tag tfx_cv_demo:1.0.0 <user_id>/<repo_name>
 
 $ docker push <user_id>/<repo_name>
+
+$ docker run  --env AWS_ACCESS_KEY_ID=AKIAUKLFGPI2LFDJSN7U --env AWS_SECRET_ACCESS_KEY=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 -it <ID>
 ```
